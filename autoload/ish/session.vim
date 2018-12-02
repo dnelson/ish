@@ -8,6 +8,7 @@ function! ish#session#new(fzy, root, position, height) abort
 
   function! session.select(source, sink) dict abort
     let choices = a:source.choices(self.root)
+    let self.source = a:source
     let self.sink = a:sink
 
     let self.infile = tempname()

@@ -41,7 +41,7 @@ function! ish#open(source, ...) abort
 endfunction
 
 function! ish#close() abort
-  if type(s:session) != type(v:null)
+  if type(s:session) !=# type(v:null)
     try
       call s:session.close(win_getid())
     finally
@@ -49,3 +49,17 @@ function! ish#close() abort
     endtry
   endif
 endfunction
+
+function! ish#status() abort
+  if type(s:session) ==# type(v:null)
+    return {'open': 0}
+  endif
+
+  let status = {'open': 1, 'source': s:session.source.name}
+  if get(s:session.source, 'rooted', 1)
+    let status.root = fnamemodify(s:session.root, ':~:.')
+  endif
+
+  return status
+endfunction
+
